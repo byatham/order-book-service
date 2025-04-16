@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: bookservicedeployment
+spec:
+ replicas: 2
+ strategy: 
+    type: Recreate
+ selector: 
+   matchLabels: 
+     app: bookservcieapp
+ template:
+  metadata:
+   name: bookservcieappppod
+   labels:
+     app: bookservcieapp	 
+  spec: 
+    containers:
+    - name: bookservcieappcontainer
+      image: sdtech/bookservcie
+      imagePullPolicy: Always
+      ports:
+      - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: bookservcieappsvc
+spec:
+  type: LoadBalancer
+  selector:
+   app: bookservcieapp
+  ports:
+   - port: 80
+     targetPort: 8080
+...
